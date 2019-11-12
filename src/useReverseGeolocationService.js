@@ -7,8 +7,8 @@ const fetchCity = async (lat, lon) => {
     const cityRequest = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKey}`)
     const cityJson = await cityRequest.json();
     const [result] = cityJson.results;
-    const { components: { city } } = result;
-    return city;
+    const { components: { city,  town } } = result;
+    return city || town;
 }
 
 const useReverseGeolocationService = (lat, long) => {
