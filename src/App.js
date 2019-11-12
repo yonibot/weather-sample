@@ -9,7 +9,9 @@ import './App.css';
 function App({coords}) {
   const [ weather, getWeather ] = useWeatherService();
   const [ city, getCity ] = useReverseGeolocationService();
+
   const [ currentUnit, setUnit ] = useState(TEMPERATURE_UNITS.metric);
+
 
   useEffect(() => {
     if (coords) {
@@ -37,7 +39,7 @@ function App({coords}) {
           )}
         </div>
         <br />
-        <a onClick={toggleTempUnit}>Switch to { otherTempUnit }</a>
+        <a className="switch-section" onClick={toggleTempUnit}>Switch to { otherTempUnit }</a>
       </header>
     </div>
   );
