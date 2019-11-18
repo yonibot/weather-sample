@@ -3,9 +3,9 @@ const TEMPERATURE_UNITS =  {
     imperial: { sysName: 'imperial', name: 'Fahrenheit', suffix: '°F'},
 }
 
-const getOtherTemperatureUnit = (currentUnit) => {
+const swapUnits = (currentUnit) => {
     const { metric, imperial } = TEMPERATURE_UNITS;
     return currentUnit === metric ? imperial : metric;
 }
 
-export { TEMPERATURE_UNITS, getOtherTemperatureUnit }
+export { TEMPERATURE_UNITS, swapUnits }
