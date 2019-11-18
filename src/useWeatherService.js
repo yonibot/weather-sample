@@ -1,25 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import keys from './keys';
 
  const apiKey = keys.openweather;
 
-const fetchWeather = async (lat, lon, unit) => {
-    unit = unit.toLowerCase();
-    const localWeather = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&APPID=${apiKey}`);
-    const localWeatherJson = await localWeather.json();
-    const { main: { temp }} = localWeatherJson;
-    return Math.round(temp);
-}
+const useWeatherService = (coords, unit) => {
 
-const useWeatherService = () => {
     const [weather, setWeather] = useState();
 
-    const getWeather = async (lat, long, unit) => {
-        const myWeather = await fetchWeather(lat, long, unit)
-        setWeather(myWeather);
-    }
+    useEffect(() => {
+        async function fetchWeather() {
+            if (coords) {
+                const { latitude: lat, longitude: lon } = coords;
+                unit = unit.sysName.toLowerCase();
+                const localWeather = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&APPID=${apiKey}`);
+                const localWeatherJson = await localWeather.json();
+                const { main: { temp }} = localWeatherJson;
+                const weather = Math.round(temp);
+                setWeather(weather);
+            }
+        }
+        fetchWeather()
+    }, [coords, unit]);
 
-    return [ weather, getWeather ];
+    return weather;
 }
 
 export { useWeatherService }
