@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { geolocated } from 'react-geolocated';
 import { useWeatherService } from './useWeatherService';
-import { useReverseGeolocationService } from './useReverseGeolocationService';
 import { TEMPERATURE_UNITS, getOtherTemperatureUnit } from './utils/weather';
 import './App.css';
 
 
 function App({coords}) {
   const [ weather, getWeather ] = useWeatherService();
-  const [ city, getCity ] = useReverseGeolocationService();
 
   const [ currentUnit, setUnit ] = useState(TEMPERATURE_UNITS.metric);
 
@@ -17,7 +15,6 @@ function App({coords}) {
     if (coords) {
       const { latitude: lat, longitude: lon } = coords;
       getWeather(lat, lon, currentUnit.sysName);
-      getCity(lat, lon);
     }
   }, [coords, currentUnit]);
 
@@ -32,9 +29,9 @@ function App({coords}) {
       <header className="App-header">
         <h2>Good morning!</h2>
         <div>
-          { weather && city && (
+          { weather && (
             <div>
-              It is <span className="em">{weather}</span> {currentUnit.suffix} in <span className="em">{city}</span>.
+              It is <span className="em">{weather}</span> {currentUnit.suffix}.
             </div>
           )}
         </div>
